@@ -50,14 +50,16 @@ function handleSearchInput(event) {
         clearTimeout(searchTimeout);
     }
     
-    // If query is empty, clear results
+    // If query is empty, clear results and don't show "no results"
     if (!query) {
         clearResults();
+        hideAllStates(); // Ensure all states are hidden
         return;
     }
     
-    // If query is too short, don't search
+    // If query is too short, don't search but also don't show errors
     if (query.length < MIN_QUERY_LENGTH) {
+        hideAllStates();
         return;
     }
     
@@ -104,6 +106,12 @@ function handleGlobalKeyDown(event) {
 async function performSearch(query) {
     if (isSearching) return;
     
+    // Don't search if query is empty or too short
+    if (!query || query.trim() === '' || query.trim().length < MIN_QUERY_LENGTH) {
+        clearResults();
+        return;
+    }
+    
     currentQuery = query;
     isSearching = true;
     
@@ -149,9 +157,11 @@ function showLoadingState() {
 function displayResults(data, query) {
     hideAllStates();
     
-    // Check if no results
+    // Check if no results - but only show "no results" if there was actually a query
     if (!data || data.length === 0 || (data[0] && data[0].title === 0)) {
-        showNoResults();
+        if (query && query.trim() !== '') {
+            showNoResults();
+        }
         return;
     }
     
@@ -263,6 +273,9 @@ function hideAllStates() {
 function clearResults() {
     hideAllStates();
     currentQuery = '';
+    
+    // Clear the results grid content
+    resultsGrid.innerHTML = '';
     
     if (searchTimeout) {
         clearTimeout(searchTimeout);

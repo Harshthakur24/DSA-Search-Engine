@@ -14,6 +14,11 @@ module.exports = (app) => {
         const query = req.query;
         const question = query.question;
 
+        // Handle empty or undefined queries
+        if (!question || question.trim() === '') {
+            return res.json([]);
+        }
+
         var arr = [];
 
         var IDF, Imp_Matrix, Importance_Matrix, Magnitude, URLs, cnt, filtered_sentence, keywords, queryString, query_Importance_Matrix, query_Magnitude, query_TF, ques_no, result, sentence, sim, similarity, tf_local, titles, toCheckKeyword, corpus;
