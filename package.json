@@ -1,0 +1,39 @@
+{
+  "name": "dsa-search-engine",
+  "version": "1.0.0",
+  "description": "A modern search engine for Data Structures and Algorithms problems with TF-IDF ranking",
+  "main": "app.js",
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  },
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "build": "echo 'No build step required'",
+    "test": "echo 'No tests specified'",
+    "lint": "echo 'No linting configured'"
+  },
+  "keywords": [
+    "search-engine",
+    "algorithms",
+    "data-structures",
+    "tf-idf",
+    "nodejs",
+    "express"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/dsa-search-engine.git"
+  },
+  "dependencies": {
+    "ejs": "^3.1.8",
+    "express": "^4.18.1",
+    "stopword": "^2.0.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.0"
+  }
+}

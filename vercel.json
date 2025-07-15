@@ -1,0 +1,28 @@
+{
+  "version": 2,
+  "name": "dsa-search-engine",
+  "builds": [
+    {
+      "src": "app.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/static/(.*)",
+      "dest": "/public/static/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/app.js"
+    }
+  ],
+  "env": {
+    "NODE_ENV": "production"
+  },
+  "functions": {
+    "app.js": {
+      "maxDuration": 30
+    }
+  }
+} 

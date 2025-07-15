@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DSA Search Engine</title>
+    <link rel="icon" href="/static/icon.png">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    
+    <!-- Modern CSS -->
+    <link rel="stylesheet" href="/static/style.css">
+    
+    <!-- Load icon library -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Background elements -->
+    <div class="bg-gradient"></div>
+    <div class="bg-circles">
+        <div class="circle circle-1"></div>
+        <div class="circle circle-2"></div>
+        <div class="circle circle-3"></div>
+    </div>
+
+    <!-- Main container -->
+    <div class="main-container">
+        <!-- Header Section -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo-container">
+                    <img src="/static/icon.png" alt="DSA Search Engine" class="logo">
+                    <div class="logo-text">
+                        <h1>DSA Search Engine</h1>
+                        <p>Data Structures & Algorithms Problems</p>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Search Section -->
+        <section class="search-section">
+            <div class="search-container">
+                <div class="search-box">
+                    <div class="search-input-container">
+                        <i class="fas fa-search search-icon"></i>
+                        <input 
+                            type="text" 
+                            placeholder="Search for algorithms, data structures, problems..." 
+                            id="searchInput"
+                            class="search-input"
+                            autocomplete="off"
+                            spellcheck="true"
+                        >
+                        <div class="search-suggestions" id="searchSuggestions"></div>
+                    </div>
+                    <div class="search-tips">
+                        <div class="tip">
+                            <i class="fas fa-lightbulb"></i>
+                            <span>Try: "Array", "Dynamic Programming", "Binary Search", "Graph"</span>
+                        </div>
+                        <div class="tip">
+                            <i class="fas fa-info-circle"></i>
+                            <span>Right-click for spell suggestions</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Results Section -->
+        <section class="results-section">
+            <div class="results-container">
+                <!-- Loading State -->
+                <div class="loading-container" id="loadingContainer">
+                    <div class="loading-spinner">
+                        <div class="spinner"></div>
+                        <p>Searching through DSA problems...</p>
+                    </div>
+                </div>
+
+                <!-- Results Grid -->
+                <div class="results-grid" id="resultsGrid">
+                    <!-- Results will be populated here -->
+                </div>
+
+                <!-- No Results -->
+                <div class="no-results" id="noResults">
+                    <div class="no-results-content">
+                        <img src="/static/notFound.png" alt="No results found">
+                        <h3>No Results Found</h3>
+                        <p>Try different keywords or check your spelling</p>
+                        <div class="suggestions">
+                            <span class="suggestion-chip" onclick="searchSuggestion('array')">Array</span>
+                            <span class="suggestion-chip" onclick="searchSuggestion('dynamic programming')">Dynamic Programming</span>
+                            <span class="suggestion-chip" onclick="searchSuggestion('binary search')">Binary Search</span>
+                            <span class="suggestion-chip" onclick="searchSuggestion('graph')">Graph</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Results Counter -->
+                <div class="results-counter" id="resultsCounter">
+                    <span id="resultsCount">0</span> problems found
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/static/script.js"></script>
+</body>
+</html>
