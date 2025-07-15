@@ -1,5 +1,6 @@
 // const { spawn } = require('child_process');
 const fs = require('fs');
+const path = require('path');
 const console = require('console');
 const { removeStopwords, eng, fra } = require('stopword');
 
@@ -11,37 +12,38 @@ module.exports = (app) => {
     });
     
     app.get('/search', (req, res)=>{
-        const query = req.query;
-        const question = query.question;
+        try {
+            const query = req.query;
+            const question = query.question;
 
-        // Handle empty or undefined queries
-        if (!question || question.trim() === '') {
-            return res.json([]);
-        }
+            // Handle empty or undefined queries
+            if (!question || question.trim() === '') {
+                return res.json([]);
+            }
 
-        var arr = [];
+            var arr = [];
 
         var IDF, Imp_Matrix, Importance_Matrix, Magnitude, URLs, cnt, filtered_sentence, keywords, queryString, query_Importance_Matrix, query_Magnitude, query_TF, ques_no, result, sentence, sim, similarity, tf_local, titles, toCheckKeyword, corpus;
 
-        let f1_titles = fs.readFileSync('./problem_titles.txt', {encoding:'utf8', flag:'r'});
+        let f1_titles = fs.readFileSync(path.join(process.cwd(), 'problem_titles.txt'), {encoding:'utf8', flag:'r'});
         // titles = f1_titles.split('\n');
         titles = f1_titles.toString().replace(/\r\n/g,'\n').split('\n');
 
 
-        let f1_URLs = fs.readFileSync('./problem_urls.txt', {encoding:'utf8', flag:'r'});
+        let f1_URLs = fs.readFileSync(path.join(process.cwd(), 'problem_urls.txt'), {encoding:'utf8', flag:'r'});
         URLs = f1_URLs.toString().replace(/\r\n/g,'\n').split('\n');
 
 
-        let f1_keywords = fs.readFileSync('./Keywords.txt', {encoding:'utf8', flag:'r'});
+        let f1_keywords = fs.readFileSync(path.join(process.cwd(), 'Keywords.txt'), {encoding:'utf8', flag:'r'});
         keywords = f1_keywords.toString().replace(/\r\n/g,'\n').split('\n');
 
 
-        let f1_sentence = fs.readFileSync('./sentence.txt', {encoding:'utf8', flag:'r'});
+        let f1_sentence = fs.readFileSync(path.join(process.cwd(), 'sentence.txt'), {encoding:'utf8', flag:'r'});
         sentence = f1_sentence.split('\n');
 
 
         IDF = [];
-        let f1_idf = fs.readFileSync('./idf.txt', {encoding:'utf8', flag:'r'});
+        let f1_idf = fs.readFileSync(path.join(process.cwd(), 'idf.txt'), {encoding:'utf8', flag:'r'});
         IDF_s = f1_idf.toString().replace(/\r\n/g,'\n').split('\n');
         for(let i = 0; i < IDF_s.length; i++){
             result = parseFloat(IDF_s[i]);
@@ -49,7 +51,7 @@ module.exports = (app) => {
         }
 
         Importance_Matrix = [];
-        let f1_tfidf = fs.readFileSync('./tf-idf.txt', {encoding:'utf8', flag:'r'});
+        let f1_tfidf = fs.readFileSync(path.join(process.cwd(), 'tf-idf.txt'), {encoding:'utf8', flag:'r'});
         Importance_Matrix_s = f1_tfidf.toString().replace(/\r\n/g,'\n').split('\n');
 
         for(let i = 0; i < Importance_Matrix_s.length; i++){
@@ -60,7 +62,7 @@ module.exports = (app) => {
 
 
         Magnitude = [];
-        let f1_magnitude = fs.readFileSync('./Magnitude.txt', {encoding:'utf8', flag:'r'});
+        let f1_magnitude = fs.readFileSync(path.join(process.cwd(), 'Magnitude.txt'), {encoding:'utf8', flag:'r'});
         Magnitude_s = f1_magnitude.toString().replace(/\r\n/g,'\n').split('\n');
         for(let i = 0; i < Magnitude_s.length; i++){
             result = parseFloat(Magnitude_s[i]);
@@ -178,7 +180,7 @@ module.exports = (app) => {
             similarity = similarity.sort().reverse();
 
             corpus = [];
-            let f1_corpus = fs.readFileSync('./corpus.txt', {encoding:'utf8', flag:'r'});
+            let f1_corpus = fs.readFileSync(path.join(process.cwd(), 'corpus.txt'), {encoding:'utf8', flag:'r'});
             // corpus = f1_corpus.toString().replace(/\r\n/g,'\n').split('\n');
             corpus = f1_corpus.toString().split('\n');
             // console.log(corpus[0]);
@@ -198,5 +200,13 @@ module.exports = (app) => {
         }
 
         res.json(arr);
+        } catch (error) {
+            console.error('Search error:', error);
+            res.status(500).json({ 
+                error: 'Search failed',
+                message: error.message,
+                details: 'Failed to load data files or process search'
+            });
+        }
     });
 };
